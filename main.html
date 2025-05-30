@@ -1,0 +1,1373 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Детальна декомпозиція етапів бойового застосування</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+      }
+
+      .container {
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+
+      .concept-section {
+        background: white;
+        border-radius: 10px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: #1a5490;
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 28px;
+      }
+
+      h2 {
+        color: #2c5aa0;
+        border-bottom: 3px solid #4a90e2;
+        padding-bottom: 10px;
+        margin-bottom: 30px;
+        font-size: 24px;
+      }
+
+      .anatomy-diagram {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 30px;
+        overflow-x: auto;
+      }
+
+      .stage-description {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+      }
+
+      .stage-card {
+        background: #f0f4f8;
+        border-radius: 8px;
+        padding: 15px;
+        border-left: 4px solid #3498db;
+        transition: transform 0.2s;
+      }
+
+      .stage-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .stage-number {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        background: #3498db;
+        color: white;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 30px;
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      .stage-title {
+        font-weight: bold;
+        color: #2c5aa0;
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+      }
+
+      .stage-content {
+        color: #555;
+        font-size: 14px;
+        line-height: 1.5;
+        margin-left: 40px;
+      }
+
+      .time-indicator {
+        color: #7f8c8d;
+        font-size: 12px;
+        font-style: italic;
+        margin-top: 5px;
+      }
+
+      /* Стилі для діаграм */
+      .threat-missile {
+        fill: #34495e;
+      }
+      .interceptor {
+        fill: #e74c3c;
+      }
+      .ground-system {
+        fill: #2c5aa0;
+      }
+      .sensor-beam {
+        stroke: #f39c12;
+        stroke-width: 2;
+        fill: none;
+        opacity: 0.6;
+      }
+      .laser-beam {
+        stroke: #e74c3c;
+        stroke-width: 3;
+        stroke-dasharray: 5, 5;
+        fill: none;
+      }
+      .data-link {
+        stroke: #27ae60;
+        stroke-width: 2;
+        stroke-dasharray: 3, 3;
+      }
+      .trajectory {
+        stroke: #3498db;
+        stroke-width: 2;
+        stroke-dasharray: 10, 5;
+        fill: none;
+      }
+
+      .legend {
+        background: white;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        font-size: 13px;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+      }
+
+      .legend-symbol {
+        width: 30px;
+        height: 3px;
+        margin-right: 8px;
+      }
+
+      .phase-separator {
+        height: 2px;
+        background: linear-gradient(to right, transparent, #ddd, transparent);
+        margin: 20px 0;
+      }
+
+      .critical-note {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 20px 0;
+        display: flex;
+        align-items: flex-start;
+      }
+
+      .critical-note::before {
+        content: "⚠️";
+        font-size: 20px;
+        margin-right: 10px;
+        flex-shrink: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1> Концепції бойового застосування систем ППО</h1>
+
+      <!-- Концепція 1: Лазерне наведення -->
+      <div class="concept-section">
+        <h2>
+          Концепція 1: Система лазерного наведення - Детальна анатомія
+          перехоплення
+        </h2>
+
+        <div class="anatomy-diagram">
+          <svg width="100%" height="600" viewBox="0 0 1400 600">
+            <!-- Фон землі -->
+            <rect x="0" y="500" width="1400" height="100" fill="#d4c5b9" />
+
+            <!-- Траєкторія БПЛА -->
+            <path
+              d="M 50 150 L 1350 100"
+              stroke="#34495e"
+              stroke-width="2"
+              stroke-dasharray="10,5"
+              opacity="0.5"
+            />
+
+            <!-- БПЛА в різних позиціях -->
+            <g id="drone">
+              <path
+                d="M-25,0 L-10,-5 L25,-5 L25,5 L-10,5 L-25,0"
+                class="threat-missile"
+              />
+              <ellipse cx="0" cy="0" rx="12" ry="6" class="threat-missile" />
+            </g>
+
+            <!-- Позиція 1 - виявлення -->
+            <use href="#drone" transform="translate(200, 140)" />
+            <circle cx="200" cy="140" r="25" fill="#3498db" opacity="0.3" />
+            <text
+              x="200"
+              y="145"
+              text-anchor="middle"
+              font-size="16"
+              fill="white"
+              font-weight="bold"
+            >
+              1
+            </text>
+
+            <!-- Позиція 2-3 - захоплення -->
+            <use href="#drone" transform="translate(400, 130)" />
+            <circle cx="400" cy="130" r="25" fill="#e67e22" opacity="0.3" />
+            <text
+              x="400"
+              y="135"
+              text-anchor="middle"
+              font-size="16"
+              fill="white"
+              font-weight="bold"
+            >
+              2-3
+            </text>
+
+            <!-- Позиція 4-5 - підготовка до пуску -->
+            <use href="#drone" transform="translate(600, 120)" />
+            <circle cx="600" cy="120" r="25" fill="#e74c3c" opacity="0.3" />
+            <text
+              x="600"
+              y="125"
+              text-anchor="middle"
+              font-size="16"
+              fill="white"
+              font-weight="bold"
+            >
+              4-5
+            </text>
+
+            <!-- Позиція 6-9 - супроводження -->
+            <use href="#drone" transform="translate(900, 110)" />
+            <circle cx="900" cy="110" r="25" fill="#9b59b6" opacity="0.3" />
+            <text
+              x="900"
+              y="115"
+              text-anchor="middle"
+              font-size="16"
+              fill="white"
+              font-weight="bold"
+            >
+              6-9
+            </text>
+
+            <!-- Позиція 10-11 - фінальне наведення -->
+            <use href="#drone" transform="translate(1150, 105)" />
+            <circle cx="1150" cy="105" r="25" fill="#16a085" opacity="0.3" />
+            <text
+              x="1150"
+              y="110"
+              text-anchor="middle"
+              font-size="16"
+              fill="white"
+              font-weight="bold"
+            >
+              10-11
+            </text>
+
+            <!-- Наземний комплекс -->
+            <g transform="translate(300, 450)">
+              <!-- Оператор -->
+              <rect
+                x="-40"
+                y="0"
+                width="80"
+                height="50"
+                class="ground-system"
+                rx="5"
+              />
+              <rect
+                x="-25"
+                y="-20"
+                width="50"
+                height="25"
+                class="ground-system"
+                rx="3"
+              />
+              <circle cx="0" cy="-8" r="10" fill="#fff" />
+              <text x="0" y="70" text-anchor="middle" font-size="14">
+                Оператор
+              </text>
+
+              <!-- Лазерна система -->
+              <line
+                x1="25"
+                y1="-8"
+                x2="40"
+                y2="-8"
+                stroke="#e74c3c"
+                stroke-width="4"
+              />
+
+              <!-- Етап 1 -->
+              <circle cx="-60" cy="-30" r="18" fill="#3498db" opacity="0.8" />
+              <text
+                x="-60"
+                y="-25"
+                text-anchor="middle"
+                font-size="14"
+                fill="white"
+                font-weight="bold"
+              >
+                1
+              </text>
+            </g>
+
+            <!-- Пускова установка -->
+            <g transform="translate(500, 470)">
+              <rect
+                x="-50"
+                y="0"
+                width="100"
+                height="30"
+                class="ground-system"
+                rx="5"
+              />
+              <rect
+                x="-40"
+                y="-25"
+                width="20"
+                height="30"
+                class="ground-system"
+                transform="rotate(-45 -30 -10)"
+              />
+              <rect
+                x="-10"
+                y="-25"
+                width="20"
+                height="30"
+                class="ground-system"
+                transform="rotate(-45 0 -10)"
+              />
+              <rect
+                x="20"
+                y="-25"
+                width="20"
+                height="30"
+                class="ground-system"
+                transform="rotate(-45 30 -10)"
+              />
+              <text x="0" y="50" text-anchor="middle" font-size="14">ПУ</text>
+
+              <!-- Етап 6 -->
+              <circle cx="60" cy="-20" r="18" fill="#f39c12" opacity="0.8" />
+              <text
+                x="60"
+                y="-15"
+                text-anchor="middle"
+                font-size="14"
+                fill="white"
+                font-weight="bold"
+              >
+                6
+              </text>
+            </g>
+
+            <!-- Лазерні промені на різних етапах -->
+            <!-- Етап 2-3: Початкове наведення -->
+            <line
+              x1="340"
+              y1="442"
+              x2="400"
+              y2="130"
+              class="laser-beam"
+              opacity="0.5"
+            />
+
+            <!-- Етап 4-5: Стабільне наведення -->
+            <line
+              x1="340"
+              y1="442"
+              x2="600"
+              y2="120"
+              class="laser-beam"
+              opacity="0.7"
+            />
+
+            <!-- Етап 6-9: Супроводження -->
+            <line x1="340" y1="442" x2="900" y2="110" class="laser-beam" />
+
+            <!-- Етап 10-11: Фінальне наведення -->
+            <line
+              x1="340"
+              y1="442"
+              x2="1150"
+              y2="105"
+              class="laser-beam"
+              opacity="0.8"
+            />
+
+            <!-- Ракета на різних етапах -->
+            <!-- Етап 7: Початок польоту -->
+            <g transform="translate(600, 350) rotate(-50)">
+              <ellipse cx="0" cy="0" rx="18" ry="7" class="interceptor" />
+              <path d="M18,0 L26,-4 L26,4 Z" class="interceptor" />
+              <circle
+                cx="650"
+                cy="350"
+                r="18"
+                fill="#3498db"
+                opacity="0.3"
+                transform="rotate(50) translate(-600,-350)"
+              />
+              <text
+                x="650"
+                y="355"
+                text-anchor="middle"
+                font-size="14"
+                fill="white"
+                font-weight="bold"
+                transform="rotate(50) translate(-600,-350)"
+              >
+                7
+              </text>
+            </g>
+
+            <!-- Етап 8-9: Корекція траєкторії -->
+            <g transform="translate(850, 220) rotate(-30)">
+              <ellipse cx="0" cy="0" rx="20" ry="8" class="interceptor" />
+              <path d="M20,0 L30,-5 L30,5 Z" class="interceptor" />
+              <circle
+                cx="850"
+                cy="220"
+                r="18"
+                fill="#9b59b6"
+                opacity="0.3"
+                transform="rotate(30) translate(-850,-220)"
+              />
+              <text
+                x="850"
+                y="225"
+                text-anchor="middle"
+                font-size="14"
+                fill="white"
+                font-weight="bold"
+                transform="rotate(30) translate(-850,-220)"
+              >
+                8-9
+              </text>
+            </g>
+
+            <!-- Етап 10-11: Фінальне зближення -->
+            <g transform="translate(1100, 140) rotate(-15)">
+              <ellipse cx="0" cy="0" rx="22" ry="9" class="interceptor" />
+              <path d="M22,0 L32,-6 L32,6 Z" class="interceptor" />
+            </g>
+
+            <!-- Траєкторія ракети -->
+            <path d="M500,450 Q700,200 1150,105" class="trajectory" />
+
+            <!-- Етап 12: Ураження -->
+            <g transform="translate(1200, 102)">
+              <circle cx="0" cy="0" r="30" fill="#e74c3c" opacity="0.2" />
+              <circle cx="0" cy="0" r="20" fill="#ff6b6b" opacity="0.4" />
+              <circle cx="0" cy="0" r="10" fill="#ff0000" opacity="0.6" />
+              <circle cx="0" cy="0" r="25" fill="#27ae60" opacity="0.3" />
+              <text
+                x="0"
+                y="5"
+                text-anchor="middle"
+                font-size="16"
+                fill="white"
+                font-weight="bold"
+              >
+                12
+              </text>
+            </g>
+
+            <!-- Система раннього попередження -->
+            <g transform="translate(100, 480)">
+              <rect
+                x="-30"
+                y="0"
+                width="60"
+                height="20"
+                class="ground-system"
+                rx="3"
+              />
+              <path
+                d="M-20,-10 L0,-30 L20,-10"
+                fill="none"
+                stroke="#3498db"
+                stroke-width="2"
+              />
+              <text x="0" y="35" text-anchor="middle" font-size="12">РЛС</text>
+            </g>
+
+            <!-- Лінії зв'язку -->
+            <line x1="100" y1="470" x2="260" y2="450" class="data-link" />
+            <line x1="340" y1="450" x2="450" y2="470" class="data-link" />
+
+            <!-- Маркери часу -->
+            <g transform="translate(0, 550)">
+              <line
+                x1="100"
+                y1="0"
+                x2="1300"
+                y2="0"
+                stroke="#95a5a6"
+                stroke-width="2"
+              />
+              <text
+                x="200"
+                y="20"
+                text-anchor="middle"
+                font-size="12"
+                fill="#7f8c8d"
+              >
+                t=0с
+              </text>
+              <text
+                x="400"
+                y="20"
+                text-anchor="middle"
+                font-size="12"
+                fill="#7f8c8d"
+              >
+                t=3с
+              </text>
+              <text
+                x="600"
+                y="20"
+                text-anchor="middle"
+                font-size="12"
+                fill="#7f8c8d"
+              >
+                t=5с
+              </text>
+              <text
+                x="900"
+                y="20"
+                text-anchor="middle"
+                font-size="12"
+                fill="#7f8c8d"
+              >
+                t=15с
+              </text>
+              <text
+                x="1150"
+                y="20"
+                text-anchor="middle"
+                font-size="12"
+                fill="#7f8c8d"
+              >
+                t=35с
+              </text>
+              <text
+                x="1200"
+                y="20"
+                text-anchor="middle"
+                font-size="12"
+                fill="#7f8c8d"
+              >
+                t=40с
+              </text>
+            </g>
+          </svg>
+        </div>
+
+        <div class="stage-description">
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">1</span>
+              Раннє попередження
+            </div>
+            <div class="stage-content">
+              РЛС або візуальне спостереження виявляє наближення БПЛА на дальній
+              дистанції.
+              <div class="time-indicator">Час: 0 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">2</span>
+              Активація системи
+            </div>
+            <div class="stage-content">
+              Оператор отримує цілевказівку та активує лазерну систему
+              наведення.
+              <div class="time-indicator">Час: 1-2 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">3</span>
+              Візуальне захоплення
+            </div>
+            <div class="stage-content">
+              Оператор знаходить ціль в оптичному прицілі та починає
+              супроводження.
+              <div class="time-indicator">Час: 2-3 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">4</span>
+              Лазерне підсвічування
+            </div>
+            <div class="stage-content">
+              Активація лазера, стабільне утримання променя на цілі.
+              Підтвердження готовності.
+              <div class="time-indicator">Час: 3-4 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">5</span>
+              Підготовка ракети
+            </div>
+            <div class="stage-content">
+              Активація систем ракети, перевірка готовності сенсора лазерного
+              променя.
+              <div class="time-indicator">Час: 4-5 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">6</span>
+              Пуск ракети
+            </div>
+            <div class="stage-content">
+              Старт ракети з пускової установки, початок роботи двигуна першої
+              ступені.
+              <div class="time-indicator">Час: 5 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">7</span>
+              Початкове наведення
+            </div>
+            <div class="stage-content">
+              Ракета знаходить лазерний промінь та починає рух по ньому до цілі.
+              <div class="time-indicator">Час: 5-8 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">8</span>
+              Маршова ділянка
+            </div>
+            <div class="stage-content">
+              Політ на крейсерській швидкості, постійна корекція за лазерним
+              променем.
+              <div class="time-indicator">Час: 8-25 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">9</span>
+              Активна корекція
+            </div>
+            <div class="stage-content">
+              Інтенсивні маневри для компенсації руху цілі, максимальні
+              перевантаження.
+              <div class="time-indicator">Час: 25-35 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">10</span>
+              Термінальна фаза
+            </div>
+            <div class="stage-content">
+              Фінальне зближення, активація неконтактного підривача.
+              <div class="time-indicator">Час: 35-39 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">11</span>
+              Детонація
+            </div>
+            <div class="stage-content">
+              Підрив боєголовки в оптимальній точці для максимального ураження.
+              <div class="time-indicator">Час: 39-40 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">12</span>
+              Оцінка результату
+            </div>
+            <div class="stage-content">
+              Візуальне підтвердження знищення цілі, готовність до наступного
+              перехоплення.
+              <div class="time-indicator">Час: 40+ сек</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="critical-note">
+          <p>
+            <strong>Критичні фактори успіху:</strong> Безперервне лазерне
+            супроводження протягом всього польоту (етапи 4-10), стабільність
+            руки оператора, відсутність перешкод на лінії візування, сприятливі
+            погодні умови.
+          </p>
+        </div>
+      </div>
+
+      <!-- Концепція 2: Автономна система -->
+      <div class="concept-section">
+        <h2>Концепція 2: Автономна система - Детальна анатомія перехоплення</h2>
+
+        <div class="anatomy-diagram">
+          <svg width="100%" height="600" viewBox="0 0 1400 600">
+            <!-- Фон землі -->
+            <rect x="0" y="500" width="1400" height="100" fill="#d4c5b9" />
+
+            <!-- Зона сканування -->
+            <ellipse
+              cx="400"
+              cy="450"
+              rx="350"
+              ry="250"
+              fill="#3498db"
+              opacity="0.05"
+              stroke="#3498db"
+              stroke-width="2"
+              stroke-dasharray="10,5"
+            />
+
+            <!-- Траєкторія БПЛА -->
+            <path
+              d="M 50 150 L 1350 100"
+              stroke="#34495e"
+              stroke-width="2"
+              stroke-dasharray="10,5"
+              opacity="0.5"
+            />
+
+            <!-- БПЛА в різних позиціях -->
+            <!-- Позиція 1-2 - сканування -->
+            <use href="#drone" transform="translate(150, 145)" />
+            <circle cx="150" cy="145" r="25" fill="#3498db" opacity="0.3" />
+            <text
+              x="150"
+              y="150"
+              text-anchor="middle"
+              font-size="16"
+              fill="white"
+              font-weight="bold"
+            >
+              1-2
+            </text>
+
+            <!-- Позиція 3-4 - ідентифікація -->
+            <use href="#drone" transform="translate(350, 135)" />
+            <rect
+              x="325"
+              y="110"
+              width="50"
+              height="50"
+              fill="none"
+              stroke="#e74c3c"
+              stroke-width="2"
+              stroke-dasharray="5,5"
+            />
+            <circle cx="350" cy="135" r="25" fill="#e67e22" opacity="0.3" />
+            <text
+              x="350"
+              y="140"
+              text-anchor="middle"
+              font-size="16"
+              fill="white"
+              font-weight="bold"
+            >
+              3-4
+            </text>
+
+            <!-- Позиція 5-6 - захоплення -->
+            <use href="#drone" transform="translate(550, 125)" />
+            <circle cx="550" cy="125" r="25" fill="#e74c3c" opacity="0.3" />
+            <text
+              x="550"
+              y="130"
+              text-anchor="middle"
+              font-size="16"
+              fill="white"
+              font-weight="bold"
+            >
+              5-6
+            </text>
+
+            <!-- Позиція 7-9 - автономний політ -->
+            <use href="#drone" transform="translate(850, 112)" />
+            <circle cx="850" cy="112" r="25" fill="#9b59b6" opacity="0.3" />
+            <text
+              x="850"
+              y="117"
+              text-anchor="middle"
+              font-size="16"
+              fill="white"
+              font-weight="bold"
+            >
+              7-9
+            </text>
+
+            <!-- Позиція 10-11 - фінальне наведення -->
+            <use href="#drone" transform="translate(1100, 105)" />
+            <circle cx="1100" cy="105" r="25" fill="#16a085" opacity="0.3" />
+            <text
+              x="1100"
+              y="110"
+              text-anchor="middle"
+              font-size="16"
+              fill="white"
+              font-weight="bold"
+            >
+              10-11
+            </text>
+
+            <!-- Наземний комплекс з камерами -->
+            <g transform="translate(400, 450)">
+              <!-- Основна платформа -->
+              <rect
+                x="-60"
+                y="0"
+                width="120"
+                height="50"
+                class="ground-system"
+                rx="5"
+              />
+
+              <!-- Камери кругового огляду -->
+              <circle cx="-40" cy="-15" r="12" class="ground-system" />
+              <circle cx="-40" cy="-15" r="8" fill="#34495e" />
+              <circle cx="0" cy="-20" r="12" class="ground-system" />
+              <circle cx="0" cy="-20" r="8" fill="#34495e" />
+              <circle cx="40" cy="-15" r="12" class="ground-system" />
+              <circle cx="40" cy="-15" r="8" fill="#34495e" />
+
+              <text x="0" y="70" text-anchor="middle" font-size="14">
+                Система виявлення
+              </text>
+
+              <!-- Етап 1 -->
+              <circle cx="-80" cy="-20" r="18" fill="#3498db" opacity="0.8" />
+              <text
+                x="-80"
+                y="-15"
+                text-anchor="middle"
+                font-size="14"
+                fill="white"
+                font-weight="bold"
+              >
+                1
+              </text>
+            </g>
+
+            <!-- Оператор з планшетом -->
+            <g transform="translate(250, 470)">
+              <rect
+                x="-30"
+                y="0"
+                width="60"
+                height="30"
+                class="ground-system"
+                rx="5"
+              />
+              <rect
+                x="-20"
+                y="-15"
+                width="40"
+                height="20"
+                fill="#34495e"
+                rx="3"
+              />
+              <rect x="-17" y="-12" width="34" height="14" fill="#3498db" />
+              <text x="0" y="50" text-anchor="middle" font-size="14">
+                Оператор
+              </text>
+
+              <!-- Етап 5 -->
+              <circle cx="-50" cy="-10" r="18" fill="#e74c3c" opacity="0.8" />
+              <text
+                x="-50"
+                y="-5"
+                text-anchor="middle"
+                font-size="14"
+                fill="white"
+                font-weight="bold"
+              >
+                5
+              </text>
+            </g>
+
+            <!-- Пускова установка -->
+            <g transform="translate(550, 470)">
+              <rect
+                x="-50"
+                y="0"
+                width="100"
+                height="30"
+                class="ground-system"
+                rx="5"
+              />
+              <rect
+                x="-40"
+                y="-25"
+                width="20"
+                height="30"
+                class="ground-system"
+                transform="rotate(-45 -30 -10)"
+              />
+              <rect
+                x="-10"
+                y="-25"
+                width="20"
+                height="30"
+                class="ground-system"
+                transform="rotate(-45 0 -10)"
+              />
+              <rect
+                x="20"
+                y="-25"
+                width="20"
+                height="30"
+                class="ground-system"
+                transform="rotate(-45 30 -10)"
+              />
+              <text x="0" y="50" text-anchor="middle" font-size="14">ПУ</text>
+
+              <!-- Етап 7 -->
+              <circle cx="60" cy="-20" r="18" fill="#f39c12" opacity="0.8" />
+              <text
+                x="60"
+                y="-15"
+                text-anchor="middle"
+                font-size="14"
+                fill="white"
+                font-weight="bold"
+              >
+                7
+              </text>
+            </g>
+
+            <!-- Промені сканування -->
+            <line x1="360" y1="435" x2="150" y2="145" class="sensor-beam" />
+            <line x1="400" y1="430" x2="350" y2="135" class="sensor-beam" />
+            <line x1="440" y1="435" x2="550" y2="125" class="sensor-beam" />
+
+            <!-- Лінії передачі даних -->
+            <line x1="340" y1="450" x2="280" y2="470" class="data-link" />
+            <line x1="280" y1="470" x2="500" y2="470" class="data-link" />
+
+            <!-- Ракета з ГСН на різних етапах -->
+            <!-- Етап 8: Початок автономного польоту -->
+            <g transform="translate(650, 320) rotate(-45)">
+              <ellipse cx="0" cy="0" rx="20" ry="8" class="interceptor" />
+              <circle cx="15" cy="0" r="5" fill="#3498db" />
+              <path d="M20,0 L28,-5 L28,5 Z" class="interceptor" />
+              <!-- Конус огляду ГСН -->
+              <path
+                d="M20,0 L50,-15 L50,15 Z"
+                fill="#3498db"
+                opacity="0.1"
+                stroke="#3498db"
+              />
+            </g>
+
+            <!-- Етап 9-10: Пошук та захоплення -->
+            <g transform="translate(900, 200) rotate(-25)">
+              <ellipse cx="0" cy="0" rx="22" ry="9" class="interceptor" />
+              <circle cx="17" cy="0" r="6" fill="#e74c3c" />
+              <path d="M22,0 L32,-6 L32,6 Z" class="interceptor" />
+              <!-- Конус огляду ГСН з захопленою ціллю -->
+              <path
+                d="M25,0 L60,-20 L60,20 Z"
+                fill="#e74c3c"
+                opacity="0.15"
+                stroke="#e74c3c"
+              />
+            </g>
+
+            <!-- Етап 11: Термінальне наведення -->
+            <g transform="translate(1050, 130) rotate(-15)">
+              <ellipse cx="0" cy="0" rx="24" ry="10" class="interceptor" />
+              <circle cx="19" cy="0" r="6" fill="#27ae60" />
+              <path d="M24,0 L35,-7 L35,7 Z" class="interceptor" />
+            </g>
+
+            <!-- Автономна траєкторія -->
+            <path d="M550,450 Q750,250 1100,105" class="trajectory" />
+
+            <!-- Етап 12: Ураження -->
+            <g transform="translate(1150, 103)">
+              <circle cx="0" cy="0" r="35" fill="#e74c3c" opacity="0.2" />
+              <circle cx="0" cy="0" r="25" fill="#ff6b6b" opacity="0.4" />
+              <circle cx="0" cy="0" r="15" fill="#ff0000" opacity="0.6" />
+              <circle cx="0" cy="0" r="30" fill="#27ae60" opacity="0.3" />
+              <text
+                x="0"
+                y="5"
+                text-anchor="middle"
+                font-size="16"
+                fill="white"
+                font-weight="bold"
+              >
+                12
+              </text>
+            </g>
+
+            <!-- Телеметрія -->
+            <path
+              d="M1150,103 Q1000,300 550,470"
+              stroke="#95a5a6"
+              stroke-width="1"
+              stroke-dasharray="3,3"
+              opacity="0.5"
+            />
+
+            <!-- ШІ процесинг індикатор -->
+            <g transform="translate(350, 90)">
+              <rect
+                x="-40"
+                y="-15"
+                width="80"
+                height="30"
+                fill="#e67e22"
+                opacity="0.2"
+                rx="5"
+              />
+              <text
+                x="0"
+                y="5"
+                text-anchor="middle"
+                font-size="12"
+                fill="#e67e22"
+                font-weight="bold"
+              >
+                AI: SHAHED-136
+              </text>
+              <text
+                x="0"
+                y="-25"
+                text-anchor="middle"
+                font-size="10"
+                fill="#e67e22"
+              >
+                Conf: 97.3%
+              </text>
+            </g>
+
+            <!-- Маркери часу -->
+            <g transform="translate(0, 550)">
+              <line
+                x1="100"
+                y1="0"
+                x2="1200"
+                y2="0"
+                stroke="#95a5a6"
+                stroke-width="2"
+              />
+              <text
+                x="150"
+                y="20"
+                text-anchor="middle"
+                font-size="12"
+                fill="#7f8c8d"
+              >
+                t=0с
+              </text>
+              <text
+                x="350"
+                y="20"
+                text-anchor="middle"
+                font-size="12"
+                fill="#7f8c8d"
+              >
+                t=3с
+              </text>
+              <text
+                x="550"
+                y="20"
+                text-anchor="middle"
+                font-size="12"
+                fill="#7f8c8d"
+              >
+                t=7с
+              </text>
+              <text
+                x="650"
+                y="20"
+                text-anchor="middle"
+                font-size="12"
+                fill="#7f8c8d"
+              >
+                t=10с
+              </text>
+              <text
+                x="900"
+                y="20"
+                text-anchor="middle"
+                font-size="12"
+                fill="#7f8c8d"
+              >
+                t=25с
+              </text>
+              <text
+                x="1100"
+                y="20"
+                text-anchor="middle"
+                font-size="12"
+                fill="#7f8c8d"
+              >
+                t=45с
+              </text>
+              <text
+                x="1150"
+                y="20"
+                text-anchor="middle"
+                font-size="12"
+                fill="#7f8c8d"
+              >
+                t=50с
+              </text>
+            </g>
+          </svg>
+        </div>
+
+        <div class="stage-description">
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">1</span>
+              Активація сканування
+            </div>
+            <div class="stage-content">
+              Система починає 360° оптико-електронне сканування повітряного
+              простору.
+              <div class="time-indicator">Час: Постійно</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">2</span>
+              Виявлення об'єктів
+            </div>
+            <div class="stage-content">
+              Алгоритми комп'ютерного зору виявляють рухомі об'єкти в повітрі.
+              <div class="time-indicator">Час: 0-1 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">3</span>
+              ШІ-класифікація
+            </div>
+            <div class="stage-content">
+              Нейромережа аналізує силует та характеристики руху для
+              ідентифікації типу БПЛА.
+              <div class="time-indicator">Час: 1-2 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">4</span>
+              Генерація тривоги
+            </div>
+            <div class="stage-content">
+              При виявленні загрози система генерує сповіщення з відео та даними
+              цілі.
+              <div class="time-indicator">Час: 2-3 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">5</span>
+              Підтвердження оператором
+            </div>
+            <div class="stage-content">
+              Оператор перевіряє ціль на планшеті та підтверджує дозвіл на
+              ураження.
+              <div class="time-indicator">Час: 3-6 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">6</span>
+              Завантаження даних
+            </div>
+            <div class="stage-content">
+              Передача координат, вектора руху та теплового підпису цілі на
+              ракету.
+              <div class="time-indicator">Час: 6-7 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">7</span>
+              Автоматичний пуск
+            </div>
+            <div class="stage-content">
+              Старт ракети з розрахованою траєкторією перехоплення.
+              <div class="time-indicator">Час: 7-10 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">8</span>
+              Інерційне наведення
+            </div>
+            <div class="stage-content">
+              Політ за попередньо розрахованою траєкторією до зони ймовірного
+              знаходження цілі.
+              <div class="time-indicator">Час: 10-20 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">9</span>
+              Активація ГСН
+            </div>
+            <div class="stage-content">
+              Включення головки самонаведення, початок автономного пошуку цілі.
+              <div class="time-indicator">Час: 20-25 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">10</span>
+              Захоплення та супровід
+            </div>
+            <div class="stage-content">
+              ГСН захоплює ціль та переходить в режим постійного супроводження.
+              <div class="time-indicator">Час: 25-45 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">11</span>
+              Фінальні маневри
+            </div>
+            <div class="stage-content">
+              Високоточне наведення з максимальними перевантаженнями для
+              гарантованого ураження.
+              <div class="time-indicator">Час: 45-49 сек</div>
+            </div>
+          </div>
+
+          <div class="stage-card">
+            <div class="stage-title">
+              <span class="stage-number">12</span>
+              Ураження та телеметрія
+            </div>
+            <div class="stage-content">
+              Детонація боєголовки, передача телеметричних даних про результат.
+              <div class="time-indicator">Час: 50 сек</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="critical-note">
+          <p>
+            <strong>Критичні фактори успіху:</strong> Якість алгоритмів
+            розпізнавання (етапи 2-3), швидкість реакції оператора (етап 5),
+            точність початкового цілевказівки (етап 6), ефективність ГСН проти
+            теплових пасток (етапи 9-11).
+          </p>
+        </div>
+      </div>
+
+      <!-- Легенда -->
+      <div class="concept-section">
+        <h2>Умовні позначення</h2>
+        <div class="legend">
+          <div class="legend-item">
+            <div class="legend-symbol" style="background: #34495e"></div>
+            <span>Ворожий БПЛА</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-symbol" style="background: #e74c3c"></div>
+            <span>Ракета-перехоплювач</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-symbol" style="background: #2c5aa0"></div>
+            <span>Наземні системи</span>
+          </div>
+          <div class="legend-item">
+            <div
+              class="legend-symbol"
+              style="
+                background: #e74c3c;
+                border: 1px dashed #e74c3c;
+                height: 1px;
+              "
+            ></div>
+            <span>Лазерний промінь</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-symbol" style="background: #f39c12"></div>
+            <span>Сенсорний промінь</span>
+          </div>
+          <div class="legend-item">
+            <div
+              class="legend-symbol"
+              style="
+                background: #27ae60;
+                border: 1px dashed #27ae60;
+                height: 1px;
+              "
+            ></div>
+            <span>Передача даних</span>
+          </div>
+          <div class="legend-item">
+            <div
+              class="legend-symbol"
+              style="
+                background: #3498db;
+                border: 1px dashed #3498db;
+                height: 1px;
+              "
+            ></div>
+            <span>Траєкторія польоту</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
